@@ -8,7 +8,7 @@
     <style>
 
         body {
-            background-color: peachpuff;
+            background-color: rgb(243, 221, 224);
         }
 
         .button {
@@ -26,8 +26,8 @@
 
         #content {
             display: flex;
-            flex-direction: row;
             justify-content: center;
+            width: 100%;
 
         }
 
@@ -46,10 +46,8 @@
         }
 
         .board .row .square {
-            min-width: 50px;
-            flex-grow: 1;
             flex-basis: auto;
-
+            flex-grow: 1;
         }
     
     </style>
@@ -60,7 +58,7 @@
 
     <div class="button">
 
-    <button>START</button>
+    <button onclick="startProgram()">START</button>
 
     </div>
 
@@ -70,15 +68,47 @@
         var nrOfSquares = 8;
         var contentDiv = document.getElementById('content');
 
-        var board = document.createElement('div');
-        board.className = 'board';
+        function startProgram() {
+            setInterval(function() {
+                createBoard();
+                nrOfSquares++;
+            }, 500);
+            
+        }
 
+        createBoard();
 
-        for (var y = 0; y < nrOfSquares; y++) {
-            var row = addRowToBoard();
+        function createBoard() {
+            var board = document.createElement('div');
+            board.className = 'board';
+
+            for (var y = 0; y < nrOfSquares; y++) {
+            var row = addRowToBoard(board);
 
             for (var x = 0; x < nrOfSquares; x++) {
-                var square = document.createElement('div');
+                addSquareToRow(x, y, row);
+            }
+        }
+
+        /* Last thing to do is add board to contentDiv (performance) bra för prestanda och snabbar upp sidan. alla uppdateringar i html ritas om och det tar lång tid */
+        contentDiv.innerHTML='';
+        contentDiv.appendChild(board);
+
+        }
+
+        function addRowToBoard(board) {
+            /* Create row */
+            var row = document.createElement('div');
+            row.className = 'row';
+
+            /* Add the row to the board */
+            board.appendChild(row);
+            return row;
+
+        }
+
+        function addSquareToRow(x, y, row) {
+            var square = document.createElement('div');
                 square.className = 'square';
 
                 /* Set background */
@@ -88,22 +118,6 @@
                 square.style.backgroundColor = 'white';
             }
             row.appendChild(square);
-
-            }
-        }
-
-        /* Last thing to do is add board to contentDiv (performance) bra för prestanda och snabbar upp sidan. alla uppdateringar i html ritas om och det tar lång tid */
-        contentDiv.appendChild(board);
-
-
-        function addRowToBoard() {
-            /* Create row */
-            var row = document.createElement('div');
-            row.className = 'row';
-
-            /* Add the row to the board */
-            board.appendChild(row);
-            return row;
 
         }
 
