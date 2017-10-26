@@ -16,7 +16,7 @@
             flex-direction: row;
             justify-content: center;
             padding: 1em 0em;
-                }
+        }
 
         button {
             width: 100px;
@@ -39,11 +39,16 @@
             flex-direction: column;
         }
 
-        .row {
-            border: 1px solid lightgray;
+        .board .row {
             width: 600px;
-            height: 50px;
+            display: flex;
+            flex-grow: 1;
+        }
 
+        .board .row .square {
+            min-width: 50px;
+            flex-grow: 1;
+            flex-basis: auto;
 
         }
     
@@ -62,15 +67,30 @@
     <div id="content"></div>
 
     <script>
+        var nrOfSquares = 8;
         var contentDiv = document.getElementById('content');
 
         var board = document.createElement('div');
         board.className = 'board';
 
-        for(var y = 0; y < 12; y++) {
-            addRowToBoard();
-        }
 
+        for (var y = 0; y < nrOfSquares; y++) {
+            var row = addRowToBoard();
+
+            for (var x = 0; x < nrOfSquares; x++) {
+                var square = document.createElement('div');
+                square.className = 'square';
+
+                /* Set background */
+            if ((x+y) % 2) {
+                square.style.backgroundColor = 'black';
+            } else {
+                square.style.backgroundColor = 'white';
+            }
+            row.appendChild(square);
+
+            }
+        }
 
         /* Last thing to do is add board to contentDiv (performance) bra för prestanda och snabbar upp sidan. alla uppdateringar i html ritas om och det tar lång tid */
         contentDiv.appendChild(board);
@@ -81,15 +101,9 @@
             var row = document.createElement('div');
             row.className = 'row';
 
-            /* Set background */
-            if (y%2) {
-                row.style.backgroundColor = 'rgb(183, 233, 228'
-            } else {
-                row.style.backgroundColor = 'white'
-            }
-
             /* Add the row to the board */
             board.appendChild(row);
+            return row;
 
         }
 
